@@ -1,0 +1,6 @@
+*.o
+*.vim
+Makefile
+maps.zip
+mlx_linux/
+mlx_test
