@@ -20,12 +20,9 @@ int	close_program(int keycode, t_metadata *vars)
 	if (keycode == 'q')
 	{
 		mlx_destroy_window(vars->mlx, vars->win);
-		mlx_destroy_display(vars->mlx);
-		free(vars->mlx);
 		//POZOR !! je treba mit sturkturu data, kde budou vsechny metadata vcetne vars a img.
 		//protoze pokud tady ukoncim process, stale budu mit alokovany img.!!!
 		//valgrind erros 3:)
-		exit(0);
 	}
 	else
 		printf("you press %c key\n", keycode);

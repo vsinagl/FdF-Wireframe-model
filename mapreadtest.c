@@ -221,11 +221,11 @@ void	print_matrix(t_map2	*map, char member)
 		while(x < map->n_cols)
 		{
 			if (member == 'x')
-				printf("%i, ",map->matrix[y * map->n_cols + x].x);
+				printf("%f, ",map->matrix[y * map->n_cols + x].x);
 			if (member == 'y')
-				printf("%i, ",map->matrix[y * map->n_cols + x].y);
+				printf("%f, ",map->matrix[y * map->n_cols + x].y);
 			if (member == 'z')
-				printf("%i, ",map->matrix[y * map->n_cols + x].z);
+				printf("%f, ",map->matrix[y * map->n_cols + x].z);
 			x++;
 		}
 		printf("\n");

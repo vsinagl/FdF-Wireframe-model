@@ -1,8 +1,6 @@
 #ifndef DEFINES_H
 # define	DEFINES_H
 
-# define COLORRED	0xc1272d;
-# define SIDELEN	30;
 
 //error messages
 # define ERR_ARG	"Error: wrong number of arguments\n"
@@ -14,11 +12,13 @@
 # define MLX_IMG	"Error : mlx_new_image error\n"
 # define MLX_MENU	"Error : mlx_img for side menu error\n"
 # define ERR_MAL	"Error : malloc error\n"
-# define ERR_MAP	"Error : map creation\n"
+# define ERR_MAP	"Error : map reading, source file is probably corrupted\n"
 
 # define WIDTH		1920
 # define HEIGHT		1080
 # define MENUWIDTH	400
+# define DEFAULTCOLOR 0xFFFFFF
+# define DEFAULTSIDELEN	15;
 
 # define ESC		53
 # define UP			126
@@ -48,10 +48,10 @@ typedef struct	s_imgdata {
 }				t_imgdata;
 	
 typedef struct s_element {
-	int	x;
-	int	y;
-	int	z;
-	int	color;
+	float	x;
+	float	y;
+	float	z;
+	float	color;
 }	t_element;
 
 typedef struct s_map2 {
@@ -59,6 +59,9 @@ typedef struct s_map2 {
 	int			n_lines;
 	int			n_cols;
 	int			sidelen;
+	int			az;
+	int			x_offset;
+	int			y_offset;
 } t_map2;
 
 typedef struct	s_metadata {
@@ -67,14 +70,14 @@ typedef struct	s_metadata {
 	t_imgdata	img;
 	t_map2		*map;
 	t_map2		*tmp_map;
+	t_point		*p_matrix;
 	t_point		*izo_matrix;
+	t_point		*dim_matrix;
 	void		*menu_izo;
 	void		*menu_2;
 	int			picture_w;
 	int			picture_h;
-	int			ax;
-	int			ay;
-	int			az;
+	int			matrix_len;
 }				t_metadata;
 
 typedef struct s_mappoint {

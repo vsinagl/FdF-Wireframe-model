@@ -1,4 +1,5 @@
 #include "../includes/fdf.h"
+#include <unistd.h>
 
 int	window_init(t_metadata *meta)
 {
@@ -40,6 +41,10 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	meta->map = create_map(fd, argv);
 	if (meta->map == NULL)
 		(put_err_fd(ERR_MAP, 2), exit(1));
+	meta->matrix_len = meta->map->n_lines * meta->map->n_cols;
+	printf("%i ...\n", meta->matrix_len);
+	meta->izo_matrix = (t_point*)malloc(sizeof(t_point) * meta->map->n_lines * meta->map->n_cols);
+	meta->dim_matrix = (t_point*)malloc(sizeof(t_point) * meta->map->n_lines * meta->map->n_cols);
 	return(0);
 }
 
@@ -62,8 +67,6 @@ void	create_menu(t_metadata *meta)
 
 
 //hooking strategy:
-//BEFORE HOOKING, ADD CENTERING VEIW CENTERING AND MATRIX CENTERING + PROPORTION VIEW
-//READING MAP WITH WIERD NUMBERS
 /*
  * > map can be updated, so i will call update functions.
  * > > check that init function initialize all the needed structures and matrix. There will be one matrix containg 2D draw coordinates for basic view(e.g izometric, dimetric) and second one with updated values.
@@ -82,62 +85,43 @@ void	create_menu(t_metadata *meta)
 
  *
  */
-void	hook(t_metadata *meta)
+int	hook(void *param)
 {
-	mlx_key_hook(meta->win, close_program, &meta);
+	t_metadata *meta;
+
+	meta = param;
+	//printf("loping %p\n", meta->map);
+	if (meta == NULL)
+		printf("what the hack\n");
+	
+	return(0);
 }
 
 int	run_program(t_metadata *meta)
 {
 	//t_point *matrix;
-	//matrix = just_xy(meta->map, 500, 500);
-	meta->map->sidelen = 20;
-	print_matrix(meta->map, 'x');
-	print_matrix(meta->map, 'y');
-	rotate_map(meta->map, 0, 0, 30);
-	print_matrix(meta->map, 'x');
-	print_matrix(meta->map, 'y');
-	meta->izo_matrix  = izometric3D(meta->map, 700, 500);	
-	draw_mesh(meta->map, meta->izo_matrix, &(meta->img));
-	//matrix = projection_3D(meta->map,  700, 500, 0.0);
-	//rotate_map(meta, 0, 0, 0);
-	//matrix = izometric3D(meta->map,  600, 500);
-	//rotate_matrix(meta->map, matrix, 40);
-	
-	/*
-	draw_mesh(meta->map, matrix, &(meta->img));
-	rotate_map(meta, 0, 0, 15.0);
-	matrix = izometric3D(meta->map,  600, 500);
-	draw_mesh(meta->map, matrix, &(meta->img));
-	*/
-	
-	/*
-	meta->tmp_map = rotate_by_angle2(meta, 15.0);
-	matrix = izometric3D(meta->tmp_map, 400, 500);
-	draw_mesh(meta->tmp_map, matrix, &(meta->img));
-
-	rotate_map(meta, 1, 0, 30.0);
-	matrix = izometric3D(meta->map,  700, 500);
-	draw_mesh(meta->map, matrix, &(meta->img));
-	*/
-
-	/*
-	meta->tmp_map = rotate_by_angle2(meta, 30.0);
-	matrix = izometric3D(meta->tmp_map, 400, 500);
-	draw_mesh(meta->tmp_map, matrix, &(meta->img));
-	meta->tmp_map = rotate_by_angle2(meta, 45.0);
-	matrix = izometric3D(meta->tmp_map, 400, 500);
-	draw_mesh(meta->tmp_map, matrix, &(meta->img));
-	meta->tmp_map = rotate_by_angle2(meta, 60.0);
-	matrix = izometric3D(meta->tmp_map, 400, 500);
-	draw_mesh(meta->tmp_map, matrix, &(meta->img));
-*/
-	//draw_mesh(meta->map, matrix, &(meta->img));
-	//window put, hook and looping
-	//mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, 0, 0);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
-	hook(meta);
+	printf("running program...\n");
+	meta->izo_matrix = izometric3D(meta->map, meta->izo_matrix, meta->map->x_offset, meta->map->y_offset);
+	printf("na hovnov\n");
+	meta->p_matrix = meta->izo_matrix;
+	printf("na hovno 2\n");
+	draw_mesh2(meta);
+	printf("na hovno 3\n");
+	offset_matrix(meta, 10, 10);
+	printf("na hovno 4\n");
+	draw_mesh2(meta);
+	sleep(2);
+	printf("na hovno 5\n");
+	printf("meta->mlx %p\n", meta->mlx);
+	printf("meta->win %p\n", meta->win);
+	printf("meta->img %p\n", meta->img.img);
+//	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+	printf("na hovno 6\n");
+//	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
+	printf("x_offset: %i\n", meta->map->x_offset);
+	sleep(2);
+	mlx_key_hook(meta->win, close_program, &meta);
+	mlx_loop_hook(meta->mlx, &hook, meta);
 	mlx_loop(meta->mlx);
 	printf("session succesfully ended\n");
 	return(0);
