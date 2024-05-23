@@ -88,6 +88,11 @@ int	hook(void *param)
 	t_metadata *meta;
 
 	meta = param;
+	
+	black_me_pls(meta);
+	draw_mesh2(meta);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
 	//printf("loping %p\n", meta->map);
 	if (meta == NULL)
 		printf("what the hack\n");
@@ -100,14 +105,15 @@ int	run_program(t_metadata *meta)
 	//t_point *matrix;
 	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
 	printf("wft1\n");
-	draw_mesh(meta->map, meta->p_matrix ,&meta->img);
-	offset_matrix(meta->p_matrix, 10, 20);
+	//draw_mesh(meta->map, meta->p_matrix ,&meta->img);
+	//offset_matrix(meta, 10, 20);
+	//draw_mesh2(meta);
 	printf("wft2\n");
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+	//mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
 	printf("%p \n", meta->menu_izo);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
+	//mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
 	printf("x_offset: %i\n", meta->map->x_offset);
-	mlx_key_hook(meta->win, close_program, &meta);
+	mlx_key_hook(meta->win, &key_control, meta);
 	mlx_loop_hook(meta->mlx, &hook, meta);
 	mlx_loop(meta->mlx);
 	printf("session succesfully ended\n");

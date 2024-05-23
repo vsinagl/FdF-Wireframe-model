@@ -15,6 +15,24 @@ void	create_menu(t_metadata *meta)
 		(put_err_fd(MLX_MLX, 2), exit(2));
 }
 */
+void	black_me_pls(t_metadata *meta)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			my_mlx_pixel_put(&meta->img, x, y, 0x000000);
+			x++;
+		}
+		y++;
+	}
+}
+
 void	create_menu(t_metadata *meta)
 {
 	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo.xpm", &meta->picture_w, &meta->picture_h);

@@ -19,12 +19,15 @@
 # define MENUWIDTH	400
 # define DEFAULTCOLOR 0xFFFFFF
 # define DEFAULTSIDELEN	15;
+# define DEF_MOVE 45;
+# define DEF_ROT 90;
+# define DEF_ZOOM 5;
 
-# define ESC		53
-# define UP			126
-# define DOWN		125
-# define RIGHT		124
-# define LEFT		123
+# define ESC		65307
+# define UP			65362
+# define DOWN		65364
+# define RIGHT		65363
+# define LEFT		65361
 
 typedef struct s_color{
 	int r;

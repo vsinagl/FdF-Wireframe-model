@@ -15,19 +15,6 @@ int	put_err_fd(char *s, int fd)
 	return(i);
 }
 
-int	close_program(int keycode, t_metadata *vars)
-{
-	if (keycode == 'q')
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		//POZOR !! je treba mit sturkturu data, kde budou vsechny metadata vcetne vars a img.
-		//protoze pokud tady ukoncim process, stale budu mit alokovany img.!!!
-		//valgrind erros 3:)
-	}
-	else
-		printf("you press %c key\n", keycode);
-	return (0);
-}
 
 int put_color(t_color color)
 {

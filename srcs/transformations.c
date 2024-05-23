@@ -50,6 +50,9 @@ void	offset_matrix(t_metadata *meta, int x_offset, int y_offset)
 
 	i = 0;
 	matrix = meta->p_matrix;
+	printf("matrix[i].x: %i\n", matrix[i].x);
+	meta->map->x_offset += x_offset;
+	meta->map->y_offset += y_offset;
 	while (i < meta->matrix_len)
 	{
 		matrix[i].x += x_offset;
