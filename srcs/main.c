@@ -25,7 +25,6 @@ int	window_init(t_metadata *meta)
 								&meta->img.bits_per_pixel,
 								&meta->img.line_length,
 								&meta->img.endian);
-	printf("window initialized\n");
 	return(0);
 }
 
@@ -41,25 +40,104 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	meta->map = create_map(fd, argv);
 	if (meta->map == NULL)
 		(put_err_fd(ERR_MAP, 2), exit(1));
-	print_matrix(meta->map, 'x');
-	print_matrix(meta->map, 'y');
-	print_matrix(meta->map, 'z');
 	return(0);
+}
+
+int	init_metadata(t_metadata *meta)
+{
+	create_menu(meta);
+	//create_menu(meta, &meta->menu_img2, "misc/menu_dimetric.xpm");
+	return(0);
+}
+
+/*
+void	create_menu(t_metadata *meta)
+{
+	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
+	if (meta->menu_izo == NULL)
+		(put_err_fd(MLX_MENU, 2), exit(2));
+	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
+}
+*/
+
+
+//hooking strategy:
+//BEFORE HOOKING, ADD CENTERING VEIW CENTERING AND MATRIX CENTERING + PROPORTION VIEW
+//READING MAP WITH WIERD NUMBERS
+/*
+ * > map can be updated, so i will call update functions.
+ * > > check that init function initialize all the needed structures and matrix. There will be one matrix containg 2D draw coordinates for basic view(e.g izometric, dimetric) and second one with updated values.
+ * > > update function update the map-> matrix on based parametrs(angles,at first run  it will upate map based on default value in metadata.
+ *			THIS FUNCTION SHOUDL BE THEN CALLED IN MLX_HOOK
+ *	
+	then the function for drawing is called also in mlx_hhok
+ *
+ * > after key pressed, the parametrs(angle, zoom, sidelen etc.) is updated, then map drawn (for angle) then matrix computed and then matrix drawn!.
+ STEPS:
+ 3D coordinates transformation --> transform to 2D coordinates(create 2D view of 3D object) --> draw mesh on screen
+ * >  free and clear actual image
+ * > create new image
+ * > draw image
+ *
+
+ *
+ */
+void	hook(t_metadata *meta)
+{
+	mlx_key_hook(meta->win, close_program, &meta);
 }
 
 int	run_program(t_metadata *meta)
 {
-	meta->izo_matrix  = izometric3D(meta->map, (MENUWIDTH + 500), 500);	
 	//t_point *matrix;
 	//matrix = just_xy(meta->map, 500, 500);
+	meta->map->sidelen = 20;
+	print_matrix(meta->map, 'x');
+	print_matrix(meta->map, 'y');
+	rotate_map(meta->map, 0, 0, 30);
+	print_matrix(meta->map, 'x');
+	print_matrix(meta->map, 'y');
+	meta->izo_matrix  = izometric3D(meta->map, 700, 500);	
 	draw_mesh(meta->map, meta->izo_matrix, &(meta->img));
-	create_menu(meta);
+	//matrix = projection_3D(meta->map,  700, 500, 0.0);
+	//rotate_map(meta, 0, 0, 0);
+	//matrix = izometric3D(meta->map,  600, 500);
+	//rotate_matrix(meta->map, matrix, 40);
+	
+	/*
+	draw_mesh(meta->map, matrix, &(meta->img));
+	rotate_map(meta, 0, 0, 15.0);
+	matrix = izometric3D(meta->map,  600, 500);
+	draw_mesh(meta->map, matrix, &(meta->img));
+	*/
+	
+	/*
+	meta->tmp_map = rotate_by_angle2(meta, 15.0);
+	matrix = izometric3D(meta->tmp_map, 400, 500);
+	draw_mesh(meta->tmp_map, matrix, &(meta->img));
+
+	rotate_map(meta, 1, 0, 30.0);
+	matrix = izometric3D(meta->map,  700, 500);
+	draw_mesh(meta->map, matrix, &(meta->img));
+	*/
+
+	/*
+	meta->tmp_map = rotate_by_angle2(meta, 30.0);
+	matrix = izometric3D(meta->tmp_map, 400, 500);
+	draw_mesh(meta->tmp_map, matrix, &(meta->img));
+	meta->tmp_map = rotate_by_angle2(meta, 45.0);
+	matrix = izometric3D(meta->tmp_map, 400, 500);
+	draw_mesh(meta->tmp_map, matrix, &(meta->img));
+	meta->tmp_map = rotate_by_angle2(meta, 60.0);
+	matrix = izometric3D(meta->tmp_map, 400, 500);
+	draw_mesh(meta->tmp_map, matrix, &(meta->img));
+*/
 	//draw_mesh(meta->map, matrix, &(meta->img));
 	//window put, hook and looping
 	//mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, 0, 0);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, 0, 0);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->pic_42, 0, 0);
-	mlx_key_hook(meta->win, close_program, &meta);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
+	hook(meta);
 	mlx_loop(meta->mlx);
 	printf("session succesfully ended\n");
 	return(0);
@@ -71,6 +149,7 @@ int main(int argc, char **argv)
 
 	process_args(argc, argv, &meta);
 	window_init(&meta);
+	create_menu(&meta);
 	//handle_erros(err);
 	run_program(&meta);
 	return(0);

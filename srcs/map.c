@@ -5,11 +5,11 @@ void	matrix_xyvalues(t_map2 *map, int x, int y)
 	if (x == 0 || map->sidelen == 0)
 		map->matrix[y * map->n_cols + x].x = x;
 	else
-		map->matrix[y * map->n_cols + x].x = x + x*(map->sidelen - 1);
+		map->matrix[y * map->n_cols + x].x = x; //x*(map->sidelen);
 	if (y == 0 || map->sidelen == 0)
 		map->matrix[y * map->n_cols + x].y = y;
 	else
-		map->matrix[y * map->n_cols + x].y = y + y*(map->sidelen - 1);
+		map->matrix[y * map->n_cols + x].y = y; //y*(map->sidelen);
 }
 
 void	fill_matrix(t_map2 *map, char *line,int y, int len)

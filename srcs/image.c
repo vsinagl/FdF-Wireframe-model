@@ -1,23 +1,6 @@
 #include "../includes/fdf.h"
 
-void	menu_banner(t_imgdata *img, t_color color)
-{
-	int	x;
-	int y;
-
-	y = 0;
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while(x < MENUWIDTH)
-		{
-			my_mlx_pixel_put(img, x, y, put_color(color));
-			x++;
-		}
-		y++;
-	}
-}
-
+/*
 void	create_menu(t_metadata *meta)
 {
 	t_color	menucolor;
@@ -31,6 +14,19 @@ void	create_menu(t_metadata *meta)
 	if (meta->pic_42 == NULL)
 		(put_err_fd(MLX_MLX, 2), exit(2));
 }
+*/
+void	create_menu(t_metadata *meta)
+{
+	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo.xpm", &meta->picture_w, &meta->picture_h);
+	if (meta->menu_izo == NULL)
+		(put_err_fd(MLX_MENU, 2), exit(2));
+	/*
+	meta->menu_2 = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
+	if (meta->menu_2 == NULL)
+		(put_err_fd(MLX_MENU, 2), exit(2));
+	*/
+}
+
 
 void	*create_img(void* mlx)
 {

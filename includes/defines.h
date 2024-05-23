@@ -12,6 +12,7 @@
 # define MLX_MLX	"Error : mlx_connection\n"
 # define MLX_WIN	"Error : mlx_new_window error\n"
 # define MLX_IMG	"Error : mlx_new_image error\n"
+# define MLX_MENU	"Error : mlx_img for side menu error\n"
 # define ERR_MAL	"Error : malloc error\n"
 # define ERR_MAP	"Error : map creation\n"
 
@@ -65,10 +66,15 @@ typedef struct	s_metadata {
 	void		*win;
 	t_imgdata	img;
 	t_map2		*map;
+	t_map2		*tmp_map;
 	t_point		*izo_matrix;
-	void		*pic_42;
+	void		*menu_izo;
+	void		*menu_2;
 	int			picture_w;
 	int			picture_h;
+	int			ax;
+	int			ay;
+	int			az;
 }				t_metadata;
 
 typedef struct s_mappoint {

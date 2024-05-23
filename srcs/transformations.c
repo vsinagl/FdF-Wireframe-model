@@ -61,8 +61,8 @@ t_point	*izometric3D(t_map2 *map, int x_offset, int y_offset)
 	i = 0;
 	while (i < matrix_len)
 	{
-		matrix[i].x = map->matrix[i].x - map->matrix[i].y + x_offset;
-		matrix[i].y = map->matrix[i].x * 0.5 + map->matrix[i].y * 0.5 - (map->matrix[i].z * (map->sidelen/sqrt(2))) + y_offset;
+		matrix[i].x = map->matrix[i].x * map->sidelen - map->matrix[i].y * map->sidelen + x_offset;
+		matrix[i].y = map->matrix[i].x * 0.5 * map->sidelen + map->matrix[i].y * 0.5 * map->sidelen - (map->matrix[i].z * (map->sidelen/sqrt(2))) + y_offset;
 		matrix[i].color = map->matrix[i].color;
 		i++;
 	}
@@ -90,6 +90,7 @@ t_point	*izometric(t_map2 *map, int x_offset, int y_offset)
 	return (matrix);
 }
 
+/*
 t_point	*rotate_by_angle(t_map2 *map, int x_offset, int y_offset, float angle)
 {
 	int			i;
@@ -109,27 +110,99 @@ t_point	*rotate_by_angle(t_map2 *map, int x_offset, int y_offset, float angle)
 	printf("matrix created\n");
 	return (matrix);
 }
+*/
 
-t_point	*projection_45_3D(t_map2 *map, int x_offset, int y_offset)
+/*
+- old function, not working properly and definitly is not an right izometric view, should delete it later but still keeping for inspiration or some other tries on functions projections
+*/
+
+t_map2	*rotate_by_angle2(t_metadata *meta, float angle)
+{
+	int				i;
+	int				matrix_len;
+	t_element		*matrix;
+	t_map2			*tmp_map;
+
+	tmp_map = (t_map2*)malloc(sizeof(t_map2));
+	tmp_map->n_cols = meta->map->n_cols;
+	tmp_map->n_lines = meta->map->n_lines;
+	tmp_map->sidelen = meta->map->sidelen;
+	matrix_len = meta->map->n_cols * meta->map->n_lines;
+	matrix = (t_element*)malloc(sizeof(t_element) * matrix_len);
+	i = 0;
+	printf("tmp_map initialized\n");
+	while (i < matrix_len)
+	{
+		matrix[i].x = (meta->map->matrix[i].x) * cos(deg_to_rad(angle)) - (meta->map->matrix[i].y) * sin(deg_to_rad(angle));
+		matrix[i].y = (meta->map->matrix[i].y) * cos(deg_to_rad(angle)) + (meta->map->matrix[i].x) * sin(deg_to_rad(angle));
+		matrix[i].z = meta->map->matrix[i].z;
+		matrix[i].color = meta->map->matrix[i].color;
+		i++;
+	}
+	tmp_map->matrix = matrix;
+	printf("matrix2 created\n");
+	return(tmp_map);
+}
+
+t_point	*projection_3D(t_map2 *map, int x_offset, int y_offset, float angle)
 {
 	int			i;
 	int			matrix_len;
 	t_point		*matrix;
-	float		angle;
 
 	matrix_len = map->n_cols * map->n_lines;
 	matrix = (t_point*)malloc(sizeof(t_point) * matrix_len);
 	i = 0;
-	angle = 45;
 	while (i < matrix_len)
 	{
-		matrix[i].x = (map->matrix[i].x + x_offset) * cos(deg_to_rad(angle)) - (map->matrix[i].y + y_offset) * sin(deg_to_rad(angle));
-		matrix[i].y = (map->matrix[i].y + y_offset) * cos(deg_to_rad(angle)) + (map->matrix[i].x + x_offset) * sin(deg_to_rad(angle)) - map->matrix[i].z * (map->sidelen/sqrt(2));
+		matrix[i].x = (map->matrix[i].x) * cos(deg_to_rad(angle)) - (map->matrix[i].y) * sin(deg_to_rad(angle)) + x_offset;
+		matrix[i].y = (map->matrix[i].y) * cos(deg_to_rad(angle)) + (map->matrix[i].x) * sin(deg_to_rad(angle)) - map->matrix[i].z * (map->sidelen/sqrt(2)) + y_offset;
 		matrix[i].color = map->matrix[i].color;
 		i++;
 	}
 	return (matrix);
 }
+
+void	rotate_matrix(int *x, int *y, float angle)
+{
+	int	x_tmp;
+	int	y_tmp;
+
+	x_tmp = *x;
+	y_tmp = *y;
+	*x = x_tmp * cos(deg_to_rad(angle)) - y_tmp * sin(deg_to_rad(angle));
+	*y = x_tmp * sin(deg_to_rad(angle)) + y_tmp * cos(deg_to_rad(angle));
+}
+
+void	rotate_map(t_map2 *map, int ax, int ay, int az)
+{
+	int	i;
+	int	matrix_len;
+
+	i = 0;
+	matrix_len = map->n_lines * map->n_lines;
+	while (i < matrix_len)
+	{
+		rotate_matrix(&map->matrix[i].x, &map->matrix[i].y, az);
+		rotate_matrix(&map->matrix[i].y, &map->matrix[i].z, ax);
+		rotate_matrix(&map->matrix[i].x, &map->matrix[i].z, ay);
+		i++;
+	}
+}
+
+/*
+t_point	*rotation_projection(t_map2 *map, int x_offset, int y_offset)
+{
+	int		i;
+	int		matrix_len;
+	t_point	*matrix;
+
+	matrix_len = map->n_cols * map->n_lines;
+	matrix = (t_point*)malloc(sizeof(t_point)*matrix_len);	
+	//algorthimg here :)
+	return(matrix);
+}
+*/
 
 t_point	*just_xy(t_map2 *map, int x_offset, int y_offset)
 {
