@@ -6,12 +6,14 @@ float	deg_to_rad(float deg)
 	return (deg * M_PI)/180.0;
 }
 
-t_point	*izometric3D(t_map2 *map, t_point *matrix, int x_offset, int y_offset)
+t_point	*izometric3D(t_map2 *map, int x_offset, int y_offset)
 {
 	int			i;
 	int			matrix_len;
+	t_point		*matrix;
 
 	matrix_len = map->n_cols * map->n_lines;
+	matrix = (t_point*)malloc(sizeof(t_point) * map->n_lines * map->n_cols);
 	i = 0;
 	while (i < matrix_len)
 	{

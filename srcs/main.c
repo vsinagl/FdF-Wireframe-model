@@ -41,10 +41,6 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	meta->map = create_map(fd, argv);
 	if (meta->map == NULL)
 		(put_err_fd(ERR_MAP, 2), exit(1));
-	meta->matrix_len = meta->map->n_lines * meta->map->n_cols;
-	printf("%i ...\n", meta->matrix_len);
-	meta->izo_matrix = (t_point*)malloc(sizeof(t_point) * meta->map->n_lines * meta->map->n_cols);
-	meta->dim_matrix = (t_point*)malloc(sizeof(t_point) * meta->map->n_lines * meta->map->n_cols);
 	return(0);
 }
 
@@ -100,26 +96,14 @@ int	hook(void *param)
 int	run_program(t_metadata *meta)
 {
 	//t_point *matrix;
-	printf("running program...\n");
-	meta->izo_matrix = izometric3D(meta->map, meta->izo_matrix, meta->map->x_offset, meta->map->y_offset);
-	printf("na hovnov\n");
-	meta->p_matrix = meta->izo_matrix;
-	printf("na hovno 2\n");
-	draw_mesh2(meta);
-	printf("na hovno 3\n");
-	offset_matrix(meta, 10, 10);
-	printf("na hovno 4\n");
-	draw_mesh2(meta);
-	sleep(2);
-	printf("na hovno 5\n");
-	printf("meta->mlx %p\n", meta->mlx);
-	printf("meta->win %p\n", meta->win);
-	printf("meta->img %p\n", meta->img.img);
-//	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
-	printf("na hovno 6\n");
-//	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
+	meta->izo_matrix = izometric3D(meta->map, meta->map->x_offset, meta->map->y_offset);
+	printf("wft1\n");
+	draw_mesh(meta->map, meta->izo_matrix ,&meta->img);
+	printf("wft2\n");
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+	printf("%p \n", meta->menu_izo);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
 	printf("x_offset: %i\n", meta->map->x_offset);
-	sleep(2);
 	mlx_key_hook(meta->win, close_program, &meta);
 	mlx_loop_hook(meta->mlx, &hook, meta);
 	mlx_loop(meta->mlx);

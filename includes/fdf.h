@@ -28,7 +28,7 @@ void	draw_mesh2(t_metadata *meta);
 t_point	*rotate_by_angle(t_map2 *map, int x_offset, int y_offset, float angle);
 t_point	*izo_base(t_map2 *map, t_point *matrix);
 t_point	*izometric(t_map2 *map, int x_offset, int y_offset);
-t_point	*izometric3D(t_map2 *map, t_point *matrix, int x_offset, int y_offset);
+t_point	*izometric3D(t_map2 *map, int x_offset, int y_offset);
 t_point	*projection_3D(t_map2 *map, int x_offset, int y_offset, float angle);
 void	rotate_map(t_map2 *map, int ax, int ay, int az);
 t_map2	*rotate_by_angle2(t_metadata *meta, float angle);
