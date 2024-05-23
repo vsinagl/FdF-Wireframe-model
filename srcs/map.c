@@ -14,8 +14,9 @@ void	fill_matrix(t_map2 *map, char *line,int y, int len)
 	x = 0;
 	while(x < len)
 	{	
-		map->matrix[y * map->n_cols + x].x = (float)x;
-		map->matrix[y * map->n_cols + x].y = (float)y;
+		map->matrix[y * map->n_cols + x].x = (float)(-map->n_cols / 2 + x);
+	
+		map->matrix[y * map->n_cols + x].y = (float)(-map->n_lines / 2 + y);
 		if (*line == '0' && ft_toupper(*(line + 1)) == 'X')
 		{
 			map->matrix[y * len + x].color = get_color(line);
@@ -27,13 +28,13 @@ void	fill_matrix(t_map2 *map, char *line,int y, int len)
 		else
 			map->matrix[y * len + x].color = 0xFFFF00;
 		map->matrix[y * len + x].z = (float)ft_atoi(line);
-		x++;
 		while(ft_isdigit(*line))
 			line++;
 		while(*line == ' ' || *line == ',')
 			line++;
 		if (*line == '\n' || '\0')
 			break;
+		x++;
 	}
 }
 
@@ -51,7 +52,7 @@ void	map_default_values(t_map2 *map)
 		map->sidelen = 5;
 	//map->sidelen = DEFAULTSIDELEN;
 	map->x_offset = ((WIDTH - MENUWIDTH) / 2);
-	map->y_offset = (HEIGHT / 2) - (map->n_lines * map->sidelen) / 2;
+	map->y_offset = (HEIGHT / 2);
 	map->az = 0;
 }
 
