@@ -41,6 +41,8 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	meta->map = create_map(fd, argv);
 	if (meta->map == NULL)
 		(put_err_fd(ERR_MAP, 2), exit(1));
+	meta->matrix_len = meta->map->n_cols * meta->map->n_lines;
+	meta->p_matrix = (t_point*)malloc(sizeof(t_point) * meta->matrix_len);
 	return(0);
 }
 
@@ -96,9 +98,10 @@ int	hook(void *param)
 int	run_program(t_metadata *meta)
 {
 	//t_point *matrix;
-	meta->izo_matrix = izometric3D(meta->map, meta->map->x_offset, meta->map->y_offset);
+	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
 	printf("wft1\n");
-	draw_mesh(meta->map, meta->izo_matrix ,&meta->img);
+	draw_mesh(meta->map, meta->p_matrix ,&meta->img);
+	offset_matrix(meta->p_matrix, 10, 20);
 	printf("wft2\n");
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
 	printf("%p \n", meta->menu_izo);

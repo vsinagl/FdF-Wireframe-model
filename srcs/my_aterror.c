@@ -32,8 +32,8 @@ void	my_aterror(t_metadata *meta)
 {
 	if (meta->img.img != NULL)
 		mlx_destroy_image(meta->mlx, meta->img.img);
-	if (meta->izo_matrix != NULL)
-		clear_matrix(meta->izo_matrix);
+	if (meta->p_matrix != NULL)
+		clear_matrix(meta->p_matrix);
 	if (meta->map != NULL)
 		clear_map(meta);
 	return;
