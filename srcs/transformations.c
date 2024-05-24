@@ -78,7 +78,7 @@ void	rotate_map(t_map2 *map, int ax, int ay, int az)
 	int	matrix_len;
 
 	i = 0;
-	matrix_len = map->n_lines * map->n_lines;
+	matrix_len = map->n_cols * map->n_lines;
 	while (i < matrix_len)
 	{
 		rotate_matrix(&map->matrix[i].x, &map->matrix[i].y, az);

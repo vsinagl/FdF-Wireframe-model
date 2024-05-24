@@ -103,6 +103,8 @@ int	hook(void *param)
 int	run_program(t_metadata *meta)
 {
 	//t_point *matrix;
+	printf("CHECK IF MAP IS CORRECT:\n");
+	print_matrix(meta->map, 'z');
 	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
 	printf("wft1\n");
 	//draw_mesh(meta->map, meta->p_matrix ,&meta->img);

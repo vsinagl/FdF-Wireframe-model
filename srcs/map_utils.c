@@ -63,6 +63,12 @@ int	get_matrix_width(char *line)
 	count = 0;
 	while(1)
 	{
+		if (*line != ' ' && *line != ',' && *line != '\n' && *line != '\0')
+			return(-1);
+		while(*line == ' ' || *line == ',')
+			line++;
+		if (*line == '\n' || *line == '\0')
+			break;
 		printf("line point %c\t", *line);
 		count++;
 		if (*line == '0' && ft_toupper(*(line + 1)) == 'X')
@@ -74,17 +80,11 @@ int	get_matrix_width(char *line)
 				line++;
 			printf("fuck you point %c\t", *line);
 		}
-		if (!ft_isdigit(*line))
-			return(-1);
+		//if (!ft_isdigit(*line) && *line != '+' && *line != '-')
+			//return(-1);
 		printf("count: %i\n", count);
-		while(ft_isdigit(*line))
+		while(ft_isdigit(*line) || *line == '+' || *line == '-')
 			line++;
-		if (*line != ' ' && *line != ',' && *line != '\n' && *line != '\0')
-			return(-1);
-		while(*line == ' ' || *line == ',')
-			line++;
-		if (*line == '\n' || *line == '\0')
-			break;
 	}
 	printf("final count: %i\n", count);
 	return(count);

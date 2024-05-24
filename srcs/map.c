@@ -26,9 +26,9 @@ void	fill_matrix(t_map2 *map, char *line,int y, int len)
 				line++;
 		}
 		else
-			map->matrix[y * len + x].color = 0xFFFF00;
+			map->matrix[y * len + x].color = DEFAULTCOLOR;
 		map->matrix[y * len + x].z = (float)ft_atoi(line);
-		while(ft_isdigit(*line))
+		while(ft_isdigit(*line) || *line == '+' || *line == '-')
 			line++;
 		while(*line == ' ' || *line == ',')
 			line++;
@@ -101,7 +101,6 @@ t_map2	*create_map(int fd, char **argv)
 	{
 		fill_matrix(map, line, i, map->n_cols);
 		line = get_next_line(fd);
-		;
 		i++;
 	}
 	map_default_values(map);
