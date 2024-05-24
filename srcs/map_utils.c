@@ -61,10 +61,11 @@ int	get_matrix_width(char *line)
 	int	count;
 
 	count = 0;
+	printf("matrix width\n");
 	while(1)
 	{
-		if (*line != ' ' && *line != ',' && *line != '\n' && *line != '\0')
-			return(-1);
+//		if (*line != ' ' && *line != ',' && *line != '\n' && *line != '\0' && !ft_isdigit(*line))
+//			return(-1);
 		while(*line == ' ' || *line == ',')
 			line++;
 		if (*line == '\n' || *line == '\0')

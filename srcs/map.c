@@ -15,7 +15,6 @@ void	fill_matrix(t_map2 *map, char *line,int y, int len)
 	while(x < len)
 	{	
 		map->matrix[y * map->n_cols + x].x = (float)(-map->n_cols / 2 + x);
-	
 		map->matrix[y * map->n_cols + x].y = (float)(-map->n_lines / 2 + y);
 		if (*line == '0' && ft_toupper(*(line + 1)) == 'X')
 		{
@@ -64,11 +63,14 @@ void	*map_init(char **argv)
 
 	fd = open(argv[1],O_RDONLY);
 	line = get_next_line(fd);
+	printf("map init1\n");
 	map = (t_map2*)malloc(sizeof(t_map2));
 	if (line == NULL || *line == '\0' || map == NULL || get_matrix_width(line) < 0)
 		return NULL;
+	printf("map init2\n");
 	map->n_cols = get_matrix_width(line);
 	map->n_lines = 0;
+	printf("map init3\n");
 	while(line != NULL)
 	{
 		if (map->n_lines > 0 && map->n_cols != get_matrix_width(line))
@@ -87,6 +89,7 @@ t_map2	*create_map(int fd, char **argv)
 	char	*line;
 	int		i;
 
+	printf("map jedeme ?\n");
 	map = map_init(argv);
 	if (map == NULL)
 	{
