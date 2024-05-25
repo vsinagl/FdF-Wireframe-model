@@ -74,7 +74,10 @@ void	*map_init(char **argv)
 	while(line != NULL)
 	{
 		if (map->n_lines > 0 && map->n_cols != get_matrix_width(line))
+		{
+			printf("error on line: %i\n", map->n_lines);
 			return (NULL);
+		}
 		line = get_next_line(fd);
 		map->n_lines++;
 	}

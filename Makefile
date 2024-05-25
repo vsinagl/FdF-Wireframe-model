@@ -38,14 +38,14 @@ END = \033[0;39m
 #RULES:
 
 $(NAME): $(LIBFT) $(OBJ)
-@$(CC) $(FLAGS) $(SRC) $(CFLAGS) -c
-@echo "$(BLUE) c.files compiled with $(RED) clang $(FLAGS) $(BLUE) to object files. $(END)"
-@$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
-@echo "$(BLUE) object files linked and executable created "
-@echo "$(GREEN) compilation sucesfull :) $(END)"
+	@$(CC) $(FLAGS) $(SRC) $(CFLAGS) -c
+	@echo "$(BLUE) c.files compiled with $(RED) clang $(FLAGS) $(BLUE) to object files. $(END)"
+	@$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
+	@echo "$(BLUE) object files linked and executable created "
+	@echo "$(GREEN) compilation sucesfull :) $(END)"
 
 $(LIBFT):
-make -C libft/
+	make -C libft/
 
 clean:
-rm $(OBJ)
+	rm $(OBJ)
