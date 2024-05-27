@@ -105,10 +105,14 @@ int	drawing(void *param)
 int	run_program(t_metadata *meta)
 {
 	rotate_map(meta->map, 0, 0, 45);
-	parallel_projection(meta, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+	printf("sidelen: %i\n", meta->map->sidelen);
+	oblique_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+	draw_mesh2(meta);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
 	mlx_hook(meta->win, 33, 1L << 17, &close_program, meta);
 	mlx_key_hook(meta->win, &key_control, meta);
-	mlx_loop_hook(meta->mlx, &drawing, meta);
+	//mlx_loop_hook(meta->mlx, &drawing, meta);
 	mlx_loop(meta->mlx);
 	printf("session succesfully ended\n");
 	mlx_destroy_display(meta->mlx);

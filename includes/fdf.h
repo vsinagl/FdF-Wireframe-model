@@ -32,6 +32,7 @@ t_point	*izometric3D(t_map2 *map, int x_offset, int y_offset);
 t_point	*projection_3D(t_map2 *map, int x_offset, int y_offset, float angle);
 t_point	*izometric3D_2(t_map2 *map, t_point *matrix, int x_offset, int y_offset);
 t_point *parallel_projection(t_metadata *meta, t_point *matrix, int x_offset, int y_offset);
+t_point	*oblique_projection(t_map2 *map, t_point *matrix, int x_offset, int y_offset);
 void	rotate_map(t_map2 *map, int ax, int ay, int az);
 t_map2	*rotate_by_angle2(t_metadata *meta, float angle);
 void	offset_matrix(t_metadata *meta, int x_offset, int y_offset);

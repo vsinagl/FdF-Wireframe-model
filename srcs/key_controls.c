@@ -31,22 +31,22 @@ void	change_projection(t_metadata *meta)
 {
 	int	rot_diff;
 
+	rot_diff = -meta->map->az;
+	printf("az angle: %i\n", meta->map->az);
 	if (meta->projection == 1)
 	{
-		rot_diff = 45 - meta->map->az;
 		meta->projection = 2;
-		meta->map->az = 45;
-		rotate_map(meta->map, 0, 0, rot_diff);
+		rotate_map(meta->map, 0, 0, rot_diff+ 22.5);
 		parallel_projection(meta, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
-		
+		printf("after rotation: %i\n", meta->map->az);
 	}
 	else if (meta->projection == 2)
 	{
-		rot_diff = 0 - meta->map->az;
+		printf("rot diff: %i\n", rot_diff);
 		meta->projection = 1;
-		meta->map->az = 0;
 		rotate_map(meta->map, 0, 0, rot_diff);
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+		printf("after rotation: %i\n", meta->map->az);
 	}
 }
 
@@ -64,10 +64,7 @@ void	rotate_projection(int keycode, t_metadata *meta)
 	else if (ft_tolower(keycode) == 'r' && meta->camera_angle < 1)
 		meta->camera_angle += 0.05;
 	else if (ft_tolower(keycode) == 'f' && meta->camera_angle > 0)
-	{
 		meta->camera_angle -= 0.05;
-		printf("camera angle: %f\n", meta->camera_angle);
-	}
 	if (meta->projection == 1)
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
 	else if (meta->projection == 2)
