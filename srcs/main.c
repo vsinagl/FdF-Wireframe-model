@@ -100,9 +100,12 @@ int	drawing(void *param)
 	return(0);
 }
 
+//meta->projection 1: izometric
+//meta->projection 2: parallel
 int	run_program(t_metadata *meta)
 {
-	parallel_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+	rotate_map(meta->map, 0, 0, 45);
+	parallel_projection(meta, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
 	mlx_hook(meta->win, 33, 1L << 17, &close_program, meta);
 	mlx_key_hook(meta->win, &key_control, meta);
 	mlx_loop_hook(meta->mlx, &drawing, meta);
@@ -117,6 +120,8 @@ int main(int argc, char **argv)
 	t_metadata	meta;
 
 	process_args(argc, argv, &meta);
+	meta.projection = 2;
+	meta.camera_angle = 0.35;
 	window_init(&meta);
 	create_menu(&meta);
 	//handle_erros(err);
