@@ -35,7 +35,7 @@ void	black_me_pls(t_metadata *meta)
 
 void	create_menu(t_metadata *meta)
 {
-	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo.xpm", &meta->picture_w, &meta->picture_h);
+	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu.xpm", &meta->picture_w, &meta->picture_h);
 	if (meta->menu_izo == NULL)
 		(put_err_fd(MLX_MENU, 2), exit(2));
 	/*

@@ -19,15 +19,11 @@ void	draw_mesh(t_map2 *map, t_point *matrix, t_imgdata *data)
 	
 	y = 0;
 	x = 0;
-	printf("nlines: %i, ncols: %i\n", map->n_lines, map->n_cols);
-		printf("x: %i, y: %i\n", x, y);
 	while(y < map->n_lines)
 	{
-		printf("x: %i, y: %i\n", x, y);
 		x = 0;
 		while(x < map->n_cols)
 		{
-			printf("x: %i, y: %i, color %i:\n",matrix[y * map->n_cols + x].x,matrix[y * map->n_cols + x].y,matrix[y * map->n_cols + x].color);
 //			printf("index: %i\n", y * map->n_cols + x);
 			//print_point("pointer point:", matrix, y * map->n_cols + x);
 			if (x < map->n_cols - 1)
@@ -51,7 +47,6 @@ void	draw_mesh(t_map2 *map, t_point *matrix, t_imgdata *data)
 		}
 		y++;
 	}
-	printf("mesh drawed\n");
 }	
 
 void	draw_mesh2(t_metadata *meta)

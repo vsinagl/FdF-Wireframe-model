@@ -6,19 +6,19 @@ int	window_init(t_metadata *meta)
 	meta->mlx = mlx_init();
 	if (meta->mlx == NULL)
 	{
-		my_aterror(meta);
+		my_free(meta);
 		(put_err_fd(MLX_MLX, 2), exit(2));
 	}
 	meta->win = mlx_new_window(meta->mlx, WIDTH, HEIGHT, "Good grade plz :)");
 	if (meta->win == NULL)
 	{
-		my_aterror(meta);
+		my_free(meta);
 		(put_err_fd(MLX_WIN, 2), exit(2));
 	}
 	meta->img.img = create_img(meta->mlx);
 	if (meta->img.img == NULL)
 	{
-		my_aterror(meta);
+		my_free(meta);
 		mlx_destroy_window(meta->mlx, meta->win);
 		(put_err_fd(MLX_IMG, 2), exit(2));
 	}
@@ -38,7 +38,7 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	fd = open(argv[1],O_RDONLY);
 	if (fd < 0)
 		(put_err_fd(ERR_READ, 2), exit(1));
-	meta->map = create_map(fd, argv);
+	meta->map = create_map(fd, meta, argv);
 	if (meta->map == NULL)
 		(put_err_fd(ERR_MAP, 2), exit(1));
 	meta->matrix_len = meta->map->n_cols * meta->map->n_lines;
@@ -46,6 +46,7 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	return(0);
 }
 
+/*
 int	init_metadata(t_metadata *meta)
 {
 	create_menu(meta);
@@ -53,7 +54,6 @@ int	init_metadata(t_metadata *meta)
 	return(0);
 }
 
-/*
 void	create_menu(t_metadata *meta)
 {
 	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
@@ -83,42 +83,32 @@ void	create_menu(t_metadata *meta)
 
  *
  */
-int	hook(void *param)
+int	drawing(void *param)
 {
 	t_metadata *meta;
 
 	meta = param;
 	
+	//printf("drawing f started\n");
 	black_me_pls(meta);
 	draw_mesh2(meta);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+//	printf("mesh drawed\n");
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
-	//printf("loping %p\n", meta->map);
+	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
 	if (meta == NULL)
 		printf("what the hack\n");
-	
 	return(0);
 }
 
 int	run_program(t_metadata *meta)
 {
-	//t_point *matrix;
-	printf("CHECK IF MAP IS CORRECT:\n");
-	print_matrix(meta->map, 'z');
 	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
-	printf("wft1\n");
-	//draw_mesh(meta->map, meta->p_matrix ,&meta->img);
-	//offset_matrix(meta, 10, 20);
-	//draw_mesh2(meta);
-	printf("wft2\n");
-	//mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
-	printf("%p \n", meta->menu_izo);
-	//mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
-	printf("x_offset: %i\n", meta->map->x_offset);
+	mlx_hook(meta->win, 33, 1L << 17, &close_program, meta);
 	mlx_key_hook(meta->win, &key_control, meta);
-	mlx_loop_hook(meta->mlx, &hook, meta);
+	mlx_loop_hook(meta->mlx, &drawing, meta);
 	mlx_loop(meta->mlx);
 	printf("session succesfully ended\n");
+	mlx_destroy_display(meta->mlx);
 	return(0);
 }
 
@@ -132,5 +122,4 @@ int main(int argc, char **argv)
 	//handle_erros(err);
 	run_program(&meta);
 	return(0);
-
 }

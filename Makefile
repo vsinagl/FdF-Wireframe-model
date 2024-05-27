@@ -9,7 +9,7 @@ srcs/image.c \
 srcs/linedraw_dda.c \
 srcs/linedraw_bresemhans.c \
 srcs/draw.c \
-srcs/my_aterror.c \
+srcs/my_free.c \
 srcs/transformations.c \
 srcs/transformations_unused.c\
 srcs/key_controls.c\

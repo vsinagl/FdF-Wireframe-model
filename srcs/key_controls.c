@@ -1,16 +1,10 @@
 #include "../includes/fdf.h"
 #include <ctype.h>
 
-int	close_program(int keycode, t_metadata *vars)
+int	close_program(t_metadata *vars)
 {
-	if (keycode == ESC)
-	{
-		mlx_destroy_window(vars->mlx, vars->win);
-		//POZOR !! je treba mit sturkturu data, kde budou vsechny metadata vcetne vars a img.
-		//protoze pokud tady ukoncim process, stale budu mit alokovany img.!!!
-		//valgrind erros 3:)
-	}
-	return (0);
+	my_free(vars);
+	exit(0);
 }
 
 void	zoom(int keycode, t_metadata *meta)
@@ -28,7 +22,6 @@ void	zoom(int keycode, t_metadata *meta)
 	{
 		meta->map->sidelen += zoom;
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
-		
 	}
 	if (keycode == 'x')
 	{
@@ -44,17 +37,11 @@ int	key_control(int keycode , void *param)
 	int			rot;
 
 	meta = param;
-	printf("meta %p\n", meta);
-	printf("len %i\n", meta->matrix_len);
-	printf("keycode: %i\n", (unsigned char)keycode);
 	move = DEF_MOVE;
 	rot = DEF_ROT;
-	printf("rot: %i\n", rot);
+	printf("you press: %c\n", keycode);
 	if (keycode == ESC)
-	{
-		//better functio for end please
-		close_program(keycode,meta);
-	}
+		close_program(meta);
 	else if (keycode == UP || tolower(keycode) == 'w')
 		offset_matrix(meta, 0, -move);
 	else if (keycode == DOWN || tolower(keycode) == 's')

@@ -14,8 +14,8 @@
 
 //mlx_functions
 void	*create_img(void* mlx);
-t_map2	*create_map(int fd, char **argv);
-int	close_program(int keycode, t_metadata *vars);
+t_map2	*create_map(int fd, t_metadata *meta, char **argv);
+int	close_program(t_metadata *vars);
 //graphic functions
 void	my_mlx_pixel_put(t_imgdata *data, int x, int y, int color);
 void	putline_dda(t_imgdata *data, t_point a, t_point b, int color);
@@ -38,7 +38,7 @@ void	black_me_pls(t_metadata *meta);
 // utils functions
 int	get_matrix_width(char *line);
 int	put_err_fd(char *s, int fd);
-void	my_aterror(t_metadata *meta);
+void	my_free(t_metadata *meta);
 int	put_color(t_color color);
 int	get_color(char *line);
 float	deg_to_rad(float deg);

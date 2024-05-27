@@ -60,6 +60,7 @@ void	*map_init(char **argv)
 	char	*line;
 	int		fd;
 	t_map2	*map;
+	char	*tmp;
 
 	fd = open(argv[1],O_RDONLY);
 	line = get_next_line(fd);
@@ -73,12 +74,14 @@ void	*map_init(char **argv)
 	printf("map init3\n");
 	while(line != NULL)
 	{
+		tmp = line;
 		if (map->n_lines > 0 && map->n_cols != get_matrix_width(line))
 		{
 			printf("error on line: %i\n", map->n_lines);
 			return (NULL);
 		}
 		line = get_next_line(fd);
+		free(tmp);
 		map->n_lines++;
 	}
 	close(fd);
@@ -86,27 +89,31 @@ void	*map_init(char **argv)
 	return map;
 }
 
-t_map2	*create_map(int fd, char **argv)
+t_map2	*create_map(int fd, t_metadata *meta, char **argv)
 {
 	t_map2	*map;
 	char	*line;
+	char	*tmp;
 	int		i;
 
 	printf("map jedeme ?\n");
 	map = map_init(argv);
 	if (map == NULL)
 	{
-		//my_aterror;
+		my_free(meta);
 		(put_err_fd(ERR_MAP, 2), exit(1));
+		return(NULL);
 	}
 	printf("map init test:\nmap->n_lines = %i\t map->n_cols = %i\n",
 			map->n_lines, map->n_cols);
-	line = get_next_line(fd);
 	i = 0;
+	line = get_next_line(fd);
 	while(line != NULL)
 	{
+		tmp = line;
 		fill_matrix(map, line, i, map->n_cols);
 		line = get_next_line(fd);
+		free(tmp);
 		i++;
 	}
 	map_default_values(map);

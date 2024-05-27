@@ -72,10 +72,7 @@ typedef struct	s_metadata {
 	void		*win;
 	t_imgdata	img;
 	t_map2		*map;
-	t_map2		*tmp_map;
 	t_point		*p_matrix;
-	t_point		*izo_matrix;
-	t_point		*dim_matrix;
 	void		*menu_izo;
 	void		*menu_2;
 	int			picture_w;
