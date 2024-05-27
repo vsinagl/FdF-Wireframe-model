@@ -102,7 +102,7 @@ int	drawing(void *param)
 
 int	run_program(t_metadata *meta)
 {
-	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+	parallel_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
 	mlx_hook(meta->win, 33, 1L << 17, &close_program, meta);
 	mlx_key_hook(meta->win, &key_control, meta);
 	mlx_loop_hook(meta->mlx, &drawing, meta);
