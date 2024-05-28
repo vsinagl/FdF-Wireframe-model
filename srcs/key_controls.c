@@ -10,16 +10,15 @@ void	zoom(int keycode, t_metadata *meta)
 {
 	int zoom;
 
-	printf("zoom keycode: %c\n", keycode);
 	if (meta->map->sidelen < 10)
 		zoom = 1;
 	else if (meta->map->sidelen < 30)
 		zoom = 3;
-	else if (meta->map->sidelen < 70)
+	else 
 		zoom = 5;
-	if (keycode == 'z' )
+	if (keycode == 'z' && meta->map->sidelen < 80)
 		meta->map->sidelen += zoom;
-	else if (keycode == 'x')
+	else if (keycode == 'x' && meta->map->sidelen > 5)
 		meta->map->sidelen -= zoom;
 	if (meta->projection == 1)	
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
