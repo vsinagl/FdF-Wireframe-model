@@ -93,7 +93,12 @@ int	drawing(void *param)
 	black_me_pls(meta);
 	draw_mesh2(meta);
 //	printf("mesh drawed\n");
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
+	if (meta->projection == 1)
+		mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 50);
+	else if (meta->projection == 2)
+		mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_2, 50, 50);
+	else if(meta->projection == 3)
+		mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_3, 50, 50);
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
 	if (meta == NULL)
 		printf("what the hack\n");
@@ -121,7 +126,7 @@ int main(int argc, char **argv)
 
 	process_args(argc, argv, &meta);
 	meta.projection = 1;
-	meta.camera_angle = 0.35;
+	meta.camera_angle = 0.45;
 	window_init(&meta);
 	create_menu(&meta);
 	//handle_erros(err);

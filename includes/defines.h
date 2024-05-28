@@ -75,6 +75,7 @@ typedef struct	s_metadata {
 	t_point		*p_matrix;
 	void		*menu_izo;
 	void		*menu_2;
+	void		*menu_3;
 	int			picture_w;
 	int			picture_h;
 	int			matrix_len;

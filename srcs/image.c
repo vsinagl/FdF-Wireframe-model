@@ -35,14 +35,14 @@ void	black_me_pls(t_metadata *meta)
 
 void	create_menu(t_metadata *meta)
 {
-	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu.xpm", &meta->picture_w, &meta->picture_h);
-	if (meta->menu_izo == NULL)
+	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu1.xpm", &meta->picture_w, &meta->picture_h);
+	meta->menu_2 = mlx_xpm_file_to_image(meta->mlx, "misc/menu2.xpm", &meta->picture_w, &meta->picture_h);
+	meta->menu_3 = mlx_xpm_file_to_image(meta->mlx, "misc/menu3.xpm", &meta->picture_w, &meta->picture_h);
+	if (meta->menu_3 == NULL || meta->menu_2 == NULL || meta->menu_izo == NULL)
+	{
+		free(meta);
 		(put_err_fd(MLX_MENU, 2), exit(2));
-	/*
-	meta->menu_2 = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
-	if (meta->menu_2 == NULL)
-		(put_err_fd(MLX_MENU, 2), exit(2));
-	*/
+	}
 }
 
 
