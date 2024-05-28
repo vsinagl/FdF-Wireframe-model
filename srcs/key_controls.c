@@ -23,8 +23,10 @@ void	zoom(int keycode, t_metadata *meta)
 		meta->map->sidelen -= zoom;
 	if (meta->projection == 1)	
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
-	else
+	else if (meta->projection == 2)
 		parallel_projection(meta, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
+	else if (meta->projection == 3)	
+		oblique_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
 }
 
 void	change_projection(t_metadata *meta)
@@ -38,15 +40,17 @@ void	change_projection(t_metadata *meta)
 		meta->projection = 2;
 		rotate_map(meta->map, 0, 0, rot_diff+ 22.5);
 		parallel_projection(meta, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
-		printf("after rotation: %i\n", meta->map->az);
 	}
 	else if (meta->projection == 2)
 	{
-		printf("rot diff: %i\n", rot_diff);
-		meta->projection = 1;
+		meta->projection = 3;
 		rotate_map(meta->map, 0, 0, rot_diff);
+		oblique_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+	}
+	else if (meta->projection == 3)
+	{
+		meta->projection = 1;
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
-		printf("after rotation: %i\n", meta->map->az);
 	}
 }
 
@@ -57,6 +61,7 @@ void	rotate_projection(int keycode, t_metadata *meta)
 	rot = DEF_ROT;
 	if (meta->projection == 2)
 		rot = 5;
+	printf("rotate by: %i\n", rot);
 	if (ft_tolower(keycode) == 'q')
 		rotate_map(meta->map, 0, 0, rot);
 	else if (ft_tolower(keycode) == 'e')
@@ -69,6 +74,8 @@ void	rotate_projection(int keycode, t_metadata *meta)
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
 	else if (meta->projection == 2)
 		parallel_projection(meta, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
+	else if (meta->projection == 3)
+		oblique_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
 }
 
 int	key_control(int keycode , void *param)

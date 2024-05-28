@@ -102,17 +102,13 @@ int	drawing(void *param)
 
 //meta->projection 1: izometric
 //meta->projection 2: parallel
+//meta->projection 3: oblique
 int	run_program(t_metadata *meta)
 {
-	rotate_map(meta->map, 0, 0, 45);
-	printf("sidelen: %i\n", meta->map->sidelen);
-	oblique_projection(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
-	draw_mesh2(meta);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 0);
-	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
+	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
 	mlx_hook(meta->win, 33, 1L << 17, &close_program, meta);
 	mlx_key_hook(meta->win, &key_control, meta);
-	//mlx_loop_hook(meta->mlx, &drawing, meta);
+	mlx_loop_hook(meta->mlx, &drawing, meta);
 	mlx_loop(meta->mlx);
 	printf("session succesfully ended\n");
 	mlx_destroy_display(meta->mlx);
@@ -124,7 +120,7 @@ int main(int argc, char **argv)
 	t_metadata	meta;
 
 	process_args(argc, argv, &meta);
-	meta.projection = 2;
+	meta.projection = 1;
 	meta.camera_angle = 0.35;
 	window_init(&meta);
 	create_menu(&meta);
