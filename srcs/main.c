@@ -35,12 +35,17 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 
 	if (argc != 2)
 		(put_err_fd(ERR_ARG, 2), exit(1));
+	if (check_ending(argv[1]) == 0)
+		(put_err_fd(ERR_FILE, 2), exit(1));
 	fd = open(argv[1],O_RDONLY);
 	if (fd < 0)
 		(put_err_fd(ERR_READ, 2), exit(1));
 	meta->map = create_map(fd, meta, argv);
 	if (meta->map == NULL)
+	{
+		free(meta);
 		(put_err_fd(ERR_MAP, 2), exit(1));
+	}
 	meta->matrix_len = meta->map->n_cols * meta->map->n_lines;
 	meta->p_matrix = (t_point*)malloc(sizeof(t_point) * meta->matrix_len);
 	return(0);

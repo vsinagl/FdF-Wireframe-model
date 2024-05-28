@@ -45,6 +45,7 @@ int	put_color(t_color color);
 int	get_color(char *line);
 float	deg_to_rad(float deg);
 int	key_control(int keycode , void *param);
+int	check_ending(char *str);
 
 //helper function -- this fucntions was just for testing purpose and will be deleted later
 void	print_point_matrix(t_map2	*map,t_point *matrix, char member);

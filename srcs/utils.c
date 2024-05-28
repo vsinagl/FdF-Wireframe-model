@@ -1,5 +1,17 @@
 #include "../includes/fdf.h"
 
+int	check_ending(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	if (str[i-1] == 'f' && str[i - 2] == 'd' && str[i - 3] == 'f')
+		return 1;
+	return 0;
+
+}
 int	put_err_fd(char *s, int fd)
 {
 	int	i;

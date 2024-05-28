@@ -7,6 +7,7 @@
 # define MLX_ADD	"Error : mlx_get_data_addr error\n"
 # define ERR_OPEN	"Error : Error opening the file\n"
 # define ERR_READ	"Error : Error reading the file\n"
+# define ERR_FILE	"Error : Unsuported filetype\n"
 # define MLX_MLX	"Error : mlx_connection\n"
 # define MLX_WIN	"Error : mlx_new_window error\n"
 # define MLX_IMG	"Error : mlx_new_image error\n"
