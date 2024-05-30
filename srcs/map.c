@@ -14,26 +14,22 @@ void	fill_matrix(t_map2 *map, char *line,int y, int len)
 	x = 0;
 	while(x < len)
 	{	
-		printf("x:%i y:%i\t",x,y);
 		map->matrix[y * map->n_cols + x].x = (float)(-map->n_cols / 2 + x);
 		map->matrix[y * map->n_cols + x].y = (float)(-map->n_lines / 2 + y);
 		while(*line == ' ')
 			line++;
-		map->matrix[y * len + x].z = (float)ft_atoi(line);
+		map->matrix[y * map->n_cols + x].z = (float)ft_atoi(line);
 		while(ft_isdigit(*line) || *line == '+' || *line == '-')
 			line++;
-		printf("x2:%i y2:%i\n",x,y);
 		if (*line == ',')
 		{
 			line++;
-			map->matrix[y * len + x].color = get_color(line);
+			map->matrix[y * map->n_cols + x].color = get_color(line);
 			while(ft_isalpha(*line) || ft_isdigit(*line))
-				line++;
-			while(*line == ' ')
 				line++;
 		}
 		else
-			map->matrix[y * len + x].color = DEFAULTCOLOR;
+			map->matrix[y * map->n_cols + x].color = DEFAULTCOLOR;
 		if (*line == '\n' || '\0')
 			break;
 		x++;
@@ -97,20 +93,16 @@ void	*map_init(char **argv)
 
 	fd = open(argv[1],O_RDONLY);
 	line = get_next_line(fd);
-	printf("map init1\n");
 	map = (t_map2*)malloc(sizeof(t_map2));
 	if (line == NULL || *line == '\0' || map == NULL || get_matrix_width(line) < 0)
 		return NULL;
-	printf("map init2\n");
 	map->n_cols = get_matrix_width(line);
 	map->n_lines = 0;
-	printf("map init3\n");
 	while(line != NULL)
 	{
 		tmp = line;
 		if (map->n_lines > 0 && map->n_cols != get_matrix_width(line))
 		{
-			printf("error on line: %i\n", map->n_lines);
 			return (NULL);
 		}
 		line = get_next_line(fd);
@@ -118,6 +110,7 @@ void	*map_init(char **argv)
 		map->n_lines++;
 	}
 	close(fd);
+	printf("map->ncols: %i map->nlines: %i\n", map->n_cols, map->n_lines);
 	map->matrix = (t_element*)malloc(sizeof(t_element) * map->n_lines * map->n_cols);
 	return map;
 }
