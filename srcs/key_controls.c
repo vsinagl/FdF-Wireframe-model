@@ -16,9 +16,9 @@ void	zoom(int keycode, t_metadata *meta)
 		zoom = 3;
 	else 
 		zoom = 5;
-	if (keycode == 'z' && meta->map->sidelen < 80)
+	if (keycode == 'z' && meta->map->sidelen < 100)
 		meta->map->sidelen += zoom;
-	else if (keycode == 'x' && meta->map->sidelen > 5)
+	else if (keycode == 'x' && meta->map->sidelen > 2)
 		meta->map->sidelen -= zoom;
 	if (meta->projection == 1)	
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
