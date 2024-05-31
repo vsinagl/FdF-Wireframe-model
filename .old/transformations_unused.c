@@ -1,5 +1,101 @@
 #include "../includes/fdf.h"
 
+void	draw_mesh(t_map2 *map, t_point *matrix, t_imgdata *data)
+{
+	int	x;
+	int y;
+	
+	y = 0;
+	x = 0;
+	while(y < map->n_lines)
+	{
+		x = 0;
+		while(x < map->n_cols)
+		{
+			if (x < map->n_cols - 1)
+			{
+				putline_bresemhans(data,
+					matrix[y * map->n_cols + x],
+					matrix[y * map->n_cols + x + 1],
+					matrix[y * map->n_cols + x].color);
+			}
+			if (y < map->n_lines - 1)
+			{
+				putline_bresemhans(data,
+					matrix[y * map->n_cols + x],
+					matrix[(y+1) * map->n_cols + x],
+					matrix[y * map->n_cols + x].color);
+			}
+			x++;
+		}
+		y++;
+	}
+}	
+
+void	print_point(char *s, t_point *matrix, int index)
+{
+	int x;
+	int y;
+	
+	x = matrix[index].x;
+	y = matrix[index].y;
+	printf("%s index: %i x: %i, y: %i\n",s, index, x, y);
+	return;
+}
+
+void	print_point_matrix(t_map2	*map,t_point *matrix, char member)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	if (member != 'x' && member != 'y')
+	{
+		printf("wrong coordinate\n");
+		return ;
+	}
+	while(y < map->n_lines)
+	{
+		x = 0;
+		while(x < map->n_cols)
+		{
+			if (member == 'x')
+				printf("%i, ",matrix[y * map->n_cols + x].x);
+			if (member == 'y')
+				printf("%i, ",matrix[y * map->n_cols + x].y);
+			x++;
+		}
+		printf("\n");
+		y++;
+	}
+	printf("\n");
+}
+
+void	print_matrix(t_map2	*map, char member)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while(y < map->n_lines)
+	{
+		x = 0;
+		while(x < map->n_cols)
+		{
+			if (member == 'x')
+				printf("%f, ",map->matrix[y * map->n_cols + x].x);
+			if (member == 'y')
+				printf("%f, ",map->matrix[y * map->n_cols + x].y);
+			if (member == 'z')
+				printf("%f, ",map->matrix[y * map->n_cols + x].z);
+			x++;
+		}
+		printf("\n");
+		y++;
+	}
+	printf("\n");
+}
+
 float	calculate_r(int x, int y, int x_offset, int y_offset, int option)
 {
 	int	x2;

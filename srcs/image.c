@@ -1,20 +1,5 @@
 #include "../includes/fdf.h"
 
-/*
-void	create_menu(t_metadata *meta)
-{
-	t_color	menucolor;
-
-	menucolor.r = 55;
-	menucolor.g = 171;
-	menucolor.b = 168;
-	menucolor.ovalue = 80;
-	//menu_banner(&(meta->img), menucolor);
-	meta->pic_42 = mlx_xpm_file_to_image(meta->mlx, "misc/menu2.xpm", &meta->picture_w, &meta->picture_h);
-	if (meta->pic_42 == NULL)
-		(put_err_fd(MLX_MLX, 2), exit(2));
-}
-*/
 void	black_me_pls(t_metadata *meta)
 {
 	int	x;

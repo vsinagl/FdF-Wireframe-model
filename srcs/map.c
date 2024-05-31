@@ -1,11 +1,4 @@
 #include "../includes/fdf.h"
-/*
-void	matrix_xyvalues(t_map2 *map, int x, int y)
-{
-		map->matrix[y * map->n_cols + x].x = (float)x;
-		map->matrix[y * map->n_cols + x].y = (float)y;
-}
-*/
 
 void	fill_matrix(t_map2 *map, char *line,int y, int len)
 {
@@ -35,36 +28,6 @@ void	fill_matrix(t_map2 *map, char *line,int y, int len)
 		x++;
 	}
 }
-/*
-void	fill_matrix(t_map2 *map, char *line,int y, int len)
-{
-	int			x;
-
-	x = 0;
-	while(x < len)
-	{	
-		map->matrix[y * map->n_cols + x].x = (float)(-map->n_cols / 2 + x);
-		map->matrix[y * map->n_cols + x].y = (float)(-map->n_lines / 2 + y);
-		if (*line == '0' && ft_toupper(*(line + 1)) == 'X')
-		{
-			map->matrix[y * len + x].color = get_color(line);
-			while(ft_isalpha(*line) || ft_isdigit(*line))
-				line++;
-			while(*line == ' ')
-				line++;
-		}
-		else
-			map->matrix[y * len + x].color = DEFAULTCOLOR;
-		map->matrix[y * len + x].z = (float)ft_atoi(line);
-		while(ft_isdigit(*line) || *line == '+' || *line == '-')
-			line++;
-		while(*line == ' ' || *line == ',')
-			line++;
-		if (*line == '\n' || '\0')
-			break;
-		x++;
-	}
-} */
 
 void	map_default_values(t_map2 *map)
 {
@@ -78,7 +41,6 @@ void	map_default_values(t_map2 *map)
 		map->sidelen = sidelen / 3;
 	else
 		map->sidelen = 5;
-	//map->sidelen = DEFAULTSIDELEN;
 	map->x_offset = ((WIDTH - MENUWIDTH) / 2);
 	map->y_offset = (HEIGHT / 2);
 	map->az = 0;
@@ -102,15 +64,12 @@ void	*map_init(char **argv)
 	{
 		tmp = line;
 		if (map->n_lines > 0 && map->n_cols != get_matrix_width(line))
-		{
 			return (NULL);
-		}
 		line = get_next_line(fd);
 		free(tmp);
 		map->n_lines++;
 	}
 	close(fd);
-	printf("allocated size %li\n", sizeof(t_element) * map->n_lines * map->n_cols);
 	map->matrix = (t_element*)malloc(sizeof(t_element) * map->n_lines * map->n_cols);
 	return map;
 }
@@ -129,8 +88,6 @@ t_map2	*create_map(int fd, t_metadata *meta, char **argv)
 		(put_err_fd(ERR_MAP, 2), exit(1));
 		return(NULL);
 	}
-	printf("map init test:\nmap->n_lines = %i\t map->n_cols = %i\n",
-			map->n_lines, map->n_cols);
 	i = 0;
 	line = get_next_line(fd);
 	while(line != NULL)

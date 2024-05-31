@@ -11,7 +11,7 @@ srcs/linedraw_bresemhans.c \
 srcs/draw.c \
 srcs/my_free.c \
 srcs/transformations.c \
-srcs/transformations_unused.c\
+srcs/transformations_utils.c \
 srcs/key_controls.c\
 
 #Flags:

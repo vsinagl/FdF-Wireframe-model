@@ -16,9 +16,9 @@ void	zoom(int keycode, t_metadata *meta)
 		zoom = 3;
 	else 
 		zoom = 5;
-	if (keycode == 'z' && meta->map->sidelen < 100)
+	if (keycode == 'x' && meta->map->sidelen < 100)
 		meta->map->sidelen += zoom;
-	else if (keycode == 'x' && meta->map->sidelen > 2)
+	else if (keycode == 'z' && meta->map->sidelen > 2)
 		meta->map->sidelen -= zoom;
 	if (meta->projection == 1)	
 		izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset); 
@@ -33,7 +33,6 @@ void	change_projection(t_metadata *meta)
 	int	rot_diff;
 
 	rot_diff = -meta->map->az;
-	printf("az angle: %i\n", meta->map->az);
 	if (meta->projection == 1)
 	{
 		meta->projection = 2;
@@ -60,7 +59,6 @@ void	rotate_projection(int keycode, t_metadata *meta)
 	rot = DEF_ROT;
 	if (meta->projection == 2)
 		rot = 5;
-	printf("rotate by: %i\n", rot);
 	if (ft_tolower(keycode) == 'q')
 		rotate_map(meta->map, 0, 0, rot);
 	else if (ft_tolower(keycode) == 'e')
@@ -84,7 +82,6 @@ int	key_control(int keycode , void *param)
 
 	meta = param;
 	move = DEF_MOVE;
-	printf("you press: %c\n", keycode);
 	if (keycode == ESC)
 		close_program(meta);
 	else if (keycode == UP || ft_tolower(keycode) == 'w')
@@ -101,7 +98,6 @@ int	key_control(int keycode , void *param)
 		change_projection(meta);
 	else 
 		zoom(keycode, meta);
-
 	return(0);
 }
 

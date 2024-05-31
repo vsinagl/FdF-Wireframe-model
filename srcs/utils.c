@@ -27,7 +27,6 @@ int	put_err_fd(char *s, int fd)
 	return(i);
 }
 
-
 int put_color(t_color color)
 {
     return ((color.ovalue & 0xFF) << 24) | ((color.r & 0xFF) << 16) | ((color.g & 0xFF) << 8) | (color.b & 0xFF);

@@ -51,43 +51,6 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	return(0);
 }
 
-/*
-int	init_metadata(t_metadata *meta)
-{
-	create_menu(meta);
-	//create_menu(meta, &meta->menu_img2, "misc/menu_dimetric.xpm");
-	return(0);
-}
-
-void	create_menu(t_metadata *meta)
-{
-	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
-	if (meta->menu_izo == NULL)
-		(put_err_fd(MLX_MENU, 2), exit(2));
-	meta->menu_izo = mlx_xpm_file_to_image(meta->mlx, "misc/menu_izo", &meta->picture_w, &meta->picture_h);
-}
-*/
-
-
-//hooking strategy:
-/*
- * > map can be updated, so i will call update functions.
- * > > check that init function initialize all the needed structures and matrix. There will be one matrix containg 2D draw coordinates for basic view(e.g izometric, dimetric) and second one with updated values.
- * > > update function update the map-> matrix on based parametrs(angles,at first run  it will upate map based on default value in metadata.
- *			THIS FUNCTION SHOUDL BE THEN CALLED IN MLX_HOOK
- *	
-	then the function for drawing is called also in mlx_hhok
- *
- * > after key pressed, the parametrs(angle, zoom, sidelen etc.) is updated, then map drawn (for angle) then matrix computed and then matrix drawn!.
- STEPS:
- 3D coordinates transformation --> transform to 2D coordinates(create 2D view of 3D object) --> draw mesh on screen
- * >  free and clear actual image
- * > create new image
- * > draw image
- *
-
- *
- */
 int	drawing(void *param)
 {
 	t_metadata *meta;
@@ -101,8 +64,7 @@ int	drawing(void *param)
 	if (meta->end == 1)
 		return(0);
 	black_me_pls(meta);
-	draw_mesh2(meta);
-	//printf("mesh drawed\n");
+	draw_mesh(meta);
 	if (meta->projection == 1)
 		mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 50);
 	else if (meta->projection == 2)
@@ -136,10 +98,8 @@ int main(int argc, char **argv)
 	meta.end = 0;
 	window_init(&meta);
 	create_menu(&meta);
-	//handle_erros(err);
 	run_program(&meta);
 	mlx_destroy_display(meta.mlx);
 	free(meta.mlx);
-	
 	return(0);
 }
