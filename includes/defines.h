@@ -82,6 +82,7 @@ typedef struct	s_metadata {
 	int			matrix_len;
 	int			projection;
 	float		camera_angle;
+	int			end;
 }				t_metadata;
 
 typedef struct s_mappoint {

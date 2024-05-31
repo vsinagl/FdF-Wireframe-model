@@ -110,7 +110,7 @@ void	*map_init(char **argv)
 		map->n_lines++;
 	}
 	close(fd);
-	printf("map->ncols: %i map->nlines: %i\n", map->n_cols, map->n_lines);
+	printf("allocated size %li\n", sizeof(t_element) * map->n_lines * map->n_cols);
 	map->matrix = (t_element*)malloc(sizeof(t_element) * map->n_lines * map->n_cols);
 	return map;
 }
@@ -122,7 +122,6 @@ t_map2	*create_map(int fd, t_metadata *meta, char **argv)
 	char	*tmp;
 	int		i;
 
-	printf("map jedeme ?\n");
 	map = map_init(argv);
 	if (map == NULL)
 	{

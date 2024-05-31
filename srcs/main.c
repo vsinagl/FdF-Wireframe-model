@@ -19,7 +19,6 @@ int	window_init(t_metadata *meta)
 	if (meta->img.img == NULL)
 	{
 		my_free(meta);
-		mlx_destroy_window(meta->mlx, meta->win);
 		(put_err_fd(MLX_IMG, 2), exit(2));
 	}
 	meta->img.addr = mlx_get_data_addr(meta->img.img,
@@ -41,6 +40,7 @@ int	process_args(int argc, char **argv, t_metadata *meta)
 	if (fd < 0)
 		(put_err_fd(ERR_READ, 2), exit(1));
 	meta->map = create_map(fd, meta, argv);
+	close(fd);
 	if (meta->map == NULL)
 	{
 		free(meta);
@@ -94,10 +94,15 @@ int	drawing(void *param)
 
 	meta = param;
 	
-	//printf("drawing f started\n");
+	if (meta == NULL || meta->mlx == NULL)
+	{
+		return 1;
+	}
+	if (meta->end == 1)
+		return(0);
 	black_me_pls(meta);
 	draw_mesh2(meta);
-//	printf("mesh drawed\n");
+	//printf("mesh drawed\n");
 	if (meta->projection == 1)
 		mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_izo, 50, 50);
 	else if (meta->projection == 2)
@@ -105,8 +110,6 @@ int	drawing(void *param)
 	else if(meta->projection == 3)
 		mlx_put_image_to_window(meta->mlx, meta->win, meta->menu_3, 50, 50);
 	mlx_put_image_to_window(meta->mlx, meta->win, meta->img.img, MENUWIDTH + 60, 0);
-	if (meta == NULL)
-		printf("what the hack\n");
 	return(0);
 }
 
@@ -116,12 +119,10 @@ int	drawing(void *param)
 int	run_program(t_metadata *meta)
 {
 	izometric3D_2(meta->map, meta->p_matrix, meta->map->x_offset, meta->map->y_offset);
+	mlx_loop_hook(meta->mlx, &drawing, meta);
 	mlx_hook(meta->win, 33, 1L << 17, &close_program, meta);
 	mlx_key_hook(meta->win, &key_control, meta);
-	mlx_loop_hook(meta->mlx, &drawing, meta);
 	mlx_loop(meta->mlx);
-	printf("session succesfully ended\n");
-	mlx_destroy_display(meta->mlx);
 	return(0);
 }
 
@@ -132,9 +133,13 @@ int main(int argc, char **argv)
 	process_args(argc, argv, &meta);
 	meta.projection = 1;
 	meta.camera_angle = 0.45;
+	meta.end = 0;
 	window_init(&meta);
 	create_menu(&meta);
 	//handle_erros(err);
 	run_program(&meta);
+	mlx_destroy_display(meta.mlx);
+	free(meta.mlx);
+	
 	return(0);
 }

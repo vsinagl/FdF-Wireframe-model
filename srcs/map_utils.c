@@ -61,7 +61,6 @@ int	get_matrix_width(char *line)
 	int	count;
 
 	count = 0;
-	printf("matrix width\n");
 	while(1)
 	{
 //		if (*line != ' ' && *line != ',' && *line != '\n' && *line != '\0' && !ft_isdigit(*line))
@@ -85,29 +84,26 @@ int	get_matrix_width(char *line)
 			break;
 		//if (!ft_isdigit(*line) && *line != '+' && *line != '-')
 			//return(-1);
-		printf("count: %i\n", count);
 	}
-	printf("final count: %i\n", count);
 	return(count);
 }
 
 
 int	get_color(char *line)
 {
-	char str_dup[10];
+	char str_dup[11];
 	int	i;
 
 	i = 0;
-	while(line[i] != ' ')
+	while(line[i] != ' ' && line[i] != '\n' && line[i] != '\0')
 	{
-		if (i > 10)
+		if (i > 8)
 			break;
 		str_dup[i] = ft_toupper(line[i]);
 		i++;
+		//printf("get_color, i: %i\n", i);
 	}
 	str_dup[i] = '\0';
-	
-
 	int number = (ft_atoi_base("0123456789ABCDEF", &str_dup[2])); // << 8 | 0xFF);
 	return(number);
 }

@@ -3,7 +3,7 @@
 int	close_program(t_metadata *vars)
 {
 	my_free(vars);
-	exit(0);
+	return(0);
 }
 
 void	zoom(int keycode, t_metadata *meta)

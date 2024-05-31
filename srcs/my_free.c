@@ -49,8 +49,8 @@ void	my_free(t_metadata *meta)
 		clear_map(meta);
 	mlx_clear_window(meta->mlx, meta->win);
 	mlx_destroy_window(meta->mlx, meta->win);
+	meta->end = 1;
 //	mlx_destroy_display(meta->mlx);
-	printf("all sucesfully free\n");
 	return;
 }
 
