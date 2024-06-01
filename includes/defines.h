@@ -96,7 +96,15 @@ typedef struct s_mappoint {
 typedef struct s_diff{
 	int	x;
 	int	y;
+	int	po;
+	int	inc;
+	int step;
 }	t_diff;
+
+typedef struct s_points{
+	t_point a;
+	t_point b;
+} t_points;
 
 #endif
 

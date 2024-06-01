@@ -63,14 +63,3 @@ void	my_mlx_pixel_put(t_imgdata *img, int x, int y, int color)
 	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
 	*((unsigned int *)(img->addr + offset)) = color;
 }
-
-void	my_mlx_pixel_put_gradient(t_imgdata *img, int x, int y, int color)
-{
-	int		offset;
-
-	offset = 0;
-	if (x >= WIDTH || x <= 0 || y <= 0 || y >= HEIGHT)
-		return ;
-	offset = (img->line_length * y) + (x * (img->bits_per_pixel / 8));
-	*((unsigned int *)(img->addr + offset)) = color;
-}

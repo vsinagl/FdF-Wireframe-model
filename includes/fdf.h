@@ -17,7 +17,7 @@ t_map2	*create_map(int fd, t_metadata *meta, char **argv);
 int	close_program(t_metadata *vars);
 //graphic functions
 void	my_mlx_pixel_put(t_imgdata *data, int x, int y, int color);
-void	putline_dda(t_imgdata *data, t_point a, t_point b, int color);
+void	putline_dda(t_imgdata *data, t_point a, t_point b);
 void	putline_bresemhans(t_imgdata *data, t_point a, t_point b, int color);
 void	create_menu(t_metadata *meta);
 void	draw_mesh(t_metadata *meta);

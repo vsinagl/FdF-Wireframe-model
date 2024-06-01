@@ -44,8 +44,6 @@ void	draw_simple_line(t_imgdata *data, t_point a, t_point b, int color)
 void	drawline_under45(t_imgdata *data, t_point start, t_point end, int color)
 {
 	t_diff		diff;
-	int			inc;
-	int			po;
 	int			x;
 	int			y;
 
@@ -54,28 +52,27 @@ void	drawline_under45(t_imgdata *data, t_point start, t_point end, int color)
 	x = start.x;
 	y = start.y;
 	if (diff.y > 0)
-		inc = 1;
+		diff.inc = 1;
 	else
-		inc = -1;
-	po = 2 * abs(diff.y) - diff.x;
+		diff.inc = -1;
+	diff.po = 2 * abs(diff.y) - diff.x;
 	while (x <= end.x)
 	{
 		my_mlx_pixel_put(data, x++, y, color);
-		if (po < 0)
-			po = po + 2 * abs(diff.y);
+		if (diff.po < 0)
+			diff.po = diff.po + 2 * abs(diff.y);
 		else
 		{
-			po = po + abs(2 * diff.y) - 2 * diff.x;
-			y += inc;
+			diff.po = diff.po + abs(2 * diff.y) - 2 * diff.x;
+			y += diff.inc;
 		}
 	}
 }
 
+
 void	drawline_above45(t_imgdata *data, t_point start, t_point end, int color)
 {
 	t_diff	diff;
-	int		inc;
-	int		po;
 	int		x;
 	int		y;
 	int		step;
@@ -85,22 +82,22 @@ void	drawline_above45(t_imgdata *data, t_point start, t_point end, int color)
 	x = start.x;
 	y = start.y;
 	if (diff.y > 0)
-		inc = 1;
+		diff.inc = 1;
 	else
-		inc = -1;
-	po = 2 * diff.x - abs(diff.y);
+		diff.inc = -1;
+	diff.po = 2 * diff.x - abs(diff.y);
 	step = abs(diff.y);
 	while (step-- >= 0)
 	{
 		my_mlx_pixel_put(data, x, y, color);
-		if (po < 0)
-			po = po + 2 * diff.x;
+		if (diff.po < 0)
+			diff.po = diff.po + 2 * diff.x;
 		else
 		{
-			po = po - abs(2 * diff.y) + 2 * diff.x;
+			diff.po = diff.po - abs(2 * diff.y) + 2 * diff.x;
 			x += 1;
 		}
-		y += inc;
+		y += diff.inc;
 	}
 }
 
