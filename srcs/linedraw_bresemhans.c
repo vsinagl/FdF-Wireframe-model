@@ -75,19 +75,17 @@ void	drawline_above45(t_imgdata *data, t_point start, t_point end, int color)
 	t_diff	diff;
 	int		x;
 	int		y;
-	int		step;
 
 	diff.x = end.x - start.x;
 	diff.y = end.y - start.y;
 	x = start.x;
 	y = start.y;
-	if (diff.y > 0)
-		diff.inc = 1;
-	else
+	diff.inc = 1;
+	if (diff.y <= 0)
 		diff.inc = -1;
 	diff.po = 2 * diff.x - abs(diff.y);
-	step = abs(diff.y);
-	while (step-- >= 0)
+	diff.step = abs(diff.y);
+	while (diff.step-- >= 0)
 	{
 		my_mlx_pixel_put(data, x, y, color);
 		if (diff.po < 0)
@@ -108,9 +106,7 @@ void	putline_bresemhans(t_imgdata *data, t_point a, t_point b, int color)
 
 	dx = b.x - a.x;
 	dy = b.y - a.y;
-	if (dx == 0 && dy == 0)
-		my_mlx_pixel_put(data,a.x, a.y, color);
-	else if (dy == 0 || dx == 0)
+	if (dy == 0 || dx == 0)
 		draw_simple_line(data, a, b, color);
 	else
 	{
