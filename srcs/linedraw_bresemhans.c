@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transformations_utils.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/10 08:12:15 by vsinagl           #+#    #+#             */
+/*   Updated: 2024/05/31 17:18:15 by vsinagl          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 void	draw_simple_line(t_imgdata *data, t_point a, t_point b, int color)
@@ -7,7 +19,7 @@ void	draw_simple_line(t_imgdata *data, t_point a, t_point b, int color)
 	step = 0;
 	if ((b.x - a.x) == 0)
 	{
-		while(step < abs(b.y - a.y))
+		while (step < abs(b.y - a.y))
 		{
 			if ((b.y - a.y) > 0)
 				my_mlx_pixel_put(data, a.x, a.y + step, color);
@@ -18,7 +30,7 @@ void	draw_simple_line(t_imgdata *data, t_point a, t_point b, int color)
 	}
 	else
 	{
-		while(step < abs(b.x - a.x))
+		while (step < abs(b.x - a.x))
 		{
 			if ((b.x - a.x) > 0)
 				my_mlx_pixel_put(data, a.x + step, a.y, color);
@@ -31,7 +43,7 @@ void	draw_simple_line(t_imgdata *data, t_point a, t_point b, int color)
 
 void	drawline_under45(t_imgdata *data, t_point start, t_point end, int color)
 {
-	t_diff	diff;
+	t_diff		diff;
 	int			inc;
 	int			po;
 	int			x;
@@ -89,9 +101,9 @@ void	drawline_above45(t_imgdata *data, t_point start, t_point end, int color)
 			x += 1;
 		}
 		y += inc;
-	}            	
-}                	
-                 	
+	}
+}
+
 void	putline_bresemhans(t_imgdata *data, t_point a, t_point b, int color)
 {
 	int	dx;

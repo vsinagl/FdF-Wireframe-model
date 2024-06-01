@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   transformations_utils.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vsinagl <vsinagl@student.42prague.com>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/12 11:12:15 by vsinagl           #+#    #+#             */
+/*   Updated: 2024/05/31 17:17:31 by vsinagl          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/fdf.h"
 
 float	deg_to_rad(float deg)
 {
-	return (deg * M_PI)/180.0;
+	return ((deg * M_PI) / 180.0);
 }
 
 void	rotate_matrix(float *x, float *y, float angle)
@@ -35,7 +47,7 @@ void	rotate_map(t_map2 *map, int ax, int ay, int az)
 
 void	offset_matrix(t_metadata *meta, int x_offset, int y_offset)
 {
-	int	i;
+	int		i;
 	t_point	*matrix;
 
 	i = 0;
