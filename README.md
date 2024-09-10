@@ -1,6 +1,6 @@
 # FDF 🗺 by vsinagl 
 
-### Wireframe Model Renderer in C
+### Wireframe Model Render in C
 
 ![FDF by vsinagl](./img/fdf_fractal2.gif)
 
