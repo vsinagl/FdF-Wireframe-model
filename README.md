@@ -2,7 +2,7 @@
 
 ### Wireframe Model Renderer in C
 
-![FDF by vsinagl](/img/fdf.gif)
+![FDF by vsinagl](./img/fdf_fractal2.gif)
 
 Project from 42 Prague. Graphical renderer that used minilibx and X11 server (graphical library that provide API for communication with X11 server)
 
