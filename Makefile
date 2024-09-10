@@ -20,6 +20,7 @@ CFLAGS = -I/usr/include -Imlx_linux -O3
 LDFLAGS = -Lmlx_linux -lmlx_Linux -L/usr/lib -lXext -lX11 -lm -lz -Llibft -lft
 
 LIBFT:= libft/libft.a
+MLX:= mlx_linux/libmlx.a
 OBJ := $(SRC:.c=.o)
 NAME:= fdf
 CC:= clang
@@ -39,7 +40,7 @@ END = \033[0;39m
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ)
+$(NAME): $(LIBFT) $(OBJ) $(MLX)
 	@$(CC) $(FLAGS) $(SRC) $(CFLAGS) -c
 	@echo "$(BLUE) c.files compiled with $(RED) clang $(FLAGS) $(BLUE) to object files. $(END)"
 	@$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
@@ -49,6 +50,9 @@ $(NAME): $(LIBFT) $(OBJ)
 
 $(LIBFT):
 	make -C libft/
+
+$(MLX):
+	make -C mlx_linux/
 
 clean:
 	rm $(OBJ)

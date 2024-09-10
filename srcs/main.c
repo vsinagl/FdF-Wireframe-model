@@ -3,9 +3,12 @@
 
 int	window_init(t_metadata *meta)
 {
+	printf("tring to mlx_init() --> calling mlx API\n");
 	meta->mlx = mlx_init();
+	printf("mxl_init done\n");
 	if (meta->mlx == NULL)
 	{
+		printf("meta->mlx == NULL\n");
 		my_free(meta);
 		(put_err_fd(MLX_MLX, 2), exit(2));
 	}
@@ -96,9 +99,13 @@ int main(int argc, char **argv)
 	meta.projection = 1;
 	meta.camera_angle = 0.45;
 	meta.end = 0;
+	printf("args processed !\n");
 	window_init(&meta);
+	printf("window initialized \n");
 	create_menu(&meta);
+	printf("menu created --> running program\n");
 	run_program(&meta);
+	printf("program done\n");
 	mlx_destroy_display(meta.mlx);
 	free(meta.mlx);
 	return(0);
